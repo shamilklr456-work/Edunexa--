@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduNexa Hub - Premium State Learning Platform</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
+
+  <div id="toast-alert" class="fixed bottom-5 right-5 z-50 hidden transition-all duration-300">
+    <div id="toast-box" class="p-4 rounded-xl shadow-lg flex items-center space-x-2 border text-white bg-emerald-600 border-emerald-700">
+      <i class="fa-solid fa-circle-check animate-bounce"></i>
+      <span id="toast-message" class="text-sm font-semibold"></span>
+    </div>
+  </div>
+
+  <div id="premium-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex justify-center items-center p-4 overflow-y-auto hidden">
+    <div class="bg-white border border-indigo-150 rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative text-left animate-scaleUp">
+      
+      <button onclick="closePremiumModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div id="modal-step-lead" class="space-y-6">
+        <div class="text-center space-y-2">
+          <div class="mx-auto w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600">
+            <i class="fa-solid fa-star text-xl animate-pulse"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-900">Join EduNexa Premium Club</h3>
+          <p class="text-xs text-slate-500">Syllabus crash prep courses, ad-free downloads, and continuous expert support channels.</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2.5">
+          <button type="button" onclick="selectPlanTier('Silver')" id="btn-tier-Silver" class="p-3 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-600 hover:border-indigo-400">
+            <span class="text-[10px] block uppercase tracking-wider">Silver</span>
+            <span class="text-sm font-bold block">₹149</span>
+          </button>
+          <button type="button" onclick="selectPlanTier('Gold')" id="btn-tier-Gold" class="p-3 rounded-xl border text-center transition-all bg-indigo-600 border-indigo-400 text-white font-black shadow-md">
+            <span class="text-[10px] block uppercase tracking-wider">Gold</span>
+            <span class="text-sm font-bold block">₹299</span>
+          </button>
+          <button type="button" onclick="selectPlanTier('Platinum')" id="btn-tier-Platinum" class="p-3 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-600 hover:border-indigo-400">
+            <span class="text-[10px] block uppercase tracking-wider">Platinum</span>
+            <span class="text-sm font-bold block">₹499</span>
+          </button>
+        </div>
+
+        <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-xl space-y-2">
+          <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest block">
+            Uniquely Unlocked with <span id="display-selected-plan-name" class="underline">Gold</span> Tier:
+          </span>
+          <div id="dynamic-benefits-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600">
+            </div>
+        </div>
+
+        <form id="lead-submission-form" onsubmit="handleLeadFormSubmit(event)" class="space-y-3.5">
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Fill Contact Details to Choose Payment Plan</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] font-bold text-slate-500 block mb-1">Student Full Name</label>
+              <input type="text" id="lead-name" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-500 block mb-1">Email Address</label>
+              <input type="email" id="lead-email" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="text-[10px] font-bold text-slate-500 block mb-1">Phone Number</label>
+              <input type="tel" id="lead-phone" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-500 block mb-1">WhatsApp Number</label>
+              <input type="tel" id="lead-whatsapp" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-500 block mb-1">Class / Batch</label>
+              <input type="text" id="lead-class" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1">
+            <i class="fa-solid fa-lock text-xs mr-1"></i>
+            <span>Securely Pay via Razorpay Integration</span>
+          </button>
+        </form>
+
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <p class="text-[11px] text-slate-600 italic">"I unlocked Silver premium access through our referral rewards system. The past entrance papers and physics prep notes have been incredibly helpful!"</p>
+          <span class="text-[9px] text-slate-500 block text-right mt-1">- Karthika, Plus Two Science Student, Kochi</span>
+        </div>
+      </div>
+
+      <div id="modal-step-success" class="text-center space-y-6 py-6 hidden animate-slideUp">
+        <div class="mx-auto w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+          <i class="fa-solid fa-circle-check text-3xl"></i>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xl font-black text-slate-900">Registration Initiated!</h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto">To activate your plan instantly and complete the backend verified verification setup, click below to ping our operator panel via WhatsApp.</p>
+        </div>
+        <button onclick="redirectToWhatsAppOperator()" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Ping Operator Setup Now</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
