@@ -5,49 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduNexa Hub - Premium State Learning Platform</title>
   
+  <!-- Tailwind CSS CDN for modern rapid layouts -->
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <!-- FontAwesome CDN for premium icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Inline premium Dark Theme stylesheet matching your exact layout -->
   <style>
     :root {
-      --glow-color: rgba(99, 102, 241, 0.1);
-      --glass-bg: rgba(255, 255, 255, 0.95);
-      --glass-border: rgba(99, 102, 241, 0.15);
+      --glow-color: rgba(99, 102, 241, 0.15);
+      --glass-bg: rgba(15, 23, 42, 0.95);
+      --glass-border: rgba(99, 102, 241, 0.2);
     }
 
     body {
-      background-color: #f8fafc; 
-      color: #0f172a; 
+      background-color: #020617; /* Deepest dark body background */
+      color: #f8fafc; /* High contrast white slate text */
     }
 
+    /* Glassmorphism layouts */
     .glass-panel {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     }
 
     aside {
-      background-color: #ffffff !important;
-      border-right: 1px solid #e2e8f0 !important;
+      background-color: #0b0f19 !important; /* Sidebar dark color from screenshot */
+      border-right: 1px solid #1e293b !important;
     }
 
-    /* Light Theme Cards setup */
-    .light-card {
-      background-color: #ffffff !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03) !important;
+    .dark-card {
+      background-color: #0f172a !important;
+      border: 1px solid #1e293b !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
     }
 
     input, textarea, select {
-      background-color: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      color: #0f172a !important;
+      background-color: #020617 !important;
+      border: 1px solid #1e293b !important;
+      color: #f8fafc !important;
     }
 
     input:focus, textarea:focus, select:focus {
-      border-color: #4f46e5 !important;
+      border-color: #6366f1 !important;
       outline: none;
     }
 
@@ -87,118 +90,126 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: #020617;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #1e1b4b;
       border-radius: 9999px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: #4f46e5;
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#020617] text-[#f8fafc] font-sans selection:bg-indigo-500 selection:text-white">
 
+  <!-- Toast Alert System -->
   <div id="toast-alert" class="fixed bottom-5 right-5 z-50 hidden transition-all duration-300">
     <div id="toast-box" class="p-4 rounded-xl shadow-lg flex items-center space-x-2 border text-white bg-emerald-600 border-emerald-700">
-      <i class="fa-solid fa-circle-check"></i>
+      <i class="fa-solid fa-circle-check animate-bounce"></i>
       <span id="toast-message" class="text-sm font-semibold"></span>
     </div>
   </div>
 
-  <div id="premium-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex justify-center items-center p-4 overflow-y-auto hidden">
-    <div class="bg-white border border-indigo-150 rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative text-left animate-scaleUp">
+  <!-- --- GLASSMORPHISM PREMIUM POPUP MODAL --- -->
+  <div id="premium-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex justify-center items-center p-4 overflow-y-auto hidden">
+    <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative text-left animate-scaleUp">
       
-      <button onclick="closePremiumModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+      <button onclick="closePremiumModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-200">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
 
+      <!-- Step 1: Lead Details Entry -->
       <div id="modal-step-lead" class="space-y-6">
         <div class="text-center space-y-2">
-          <div class="mx-auto w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600">
+          <div class="mx-auto w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
             <i class="fa-solid fa-star text-xl animate-pulse"></i>
           </div>
-          <h3 class="text-xl font-black text-slate-900">Join EduNexa Premium Club</h3>
-          <p class="text-xs text-slate-500">Syllabus crash prep courses, ad-free downloads, and continuous expert support channels.</p>
+          <h3 class="text-xl font-black text-white">Join EduNexa Premium Club</h3>
+          <p class="text-xs text-slate-300">Syllabus crash prep courses, ad-free downloads, and continuous expert support channels.</p>
         </div>
 
+        <!-- Plan selection buttons -->
         <div class="grid grid-cols-3 gap-2.5">
-          <button type="button" onclick="selectPlanTier('Silver')" id="btn-tier-Silver" class="p-3 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-600 hover:border-indigo-400">
+          <button type="button" onclick="selectPlanTier('Silver')" id="btn-tier-Silver" class="p-3 rounded-xl border text-center transition-all bg-slate-950/40 border-indigo-950 text-slate-400 hover:border-indigo-900">
             <span class="text-[10px] block uppercase tracking-wider">Silver</span>
-            <span class="text-sm font-bold block">149</span>
+            <span class="text-sm font-bold block">₹149</span>
           </button>
           <button type="button" onclick="selectPlanTier('Gold')" id="btn-tier-Gold" class="p-3 rounded-xl border text-center transition-all bg-indigo-600 border-indigo-400 text-white font-black shadow-md">
             <span class="text-[10px] block uppercase tracking-wider">Gold</span>
-            <span class="text-sm font-bold block">299</span>
+            <span class="text-sm font-bold block">₹299</span>
           </button>
-          <button type="button" onclick="selectPlanTier('Platinum')" id="btn-tier-Platinum" class="p-3 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-600 hover:border-indigo-400">
+          <button type="button" onclick="selectPlanTier('Platinum')" id="btn-tier-Platinum" class="p-3 rounded-xl border text-center transition-all bg-slate-950/40 border-indigo-950 text-slate-400 hover:border-indigo-900">
             <span class="text-[10px] block uppercase tracking-wider">Platinum</span>
-            <span class="text-sm font-bold block">499</span>
+            <span class="text-sm font-bold block">₹499</span>
           </button>
         </div>
 
-        <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-xl space-y-2">
-          <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest block">
+        <!-- Dynamic Plan Highlights -->
+        <div class="bg-indigo-950/30 border border-indigo-500/20 p-4 rounded-xl space-y-2">
+          <span class="text-[10px] font-black text-amber-400 uppercase tracking-widest block">
             Uniquely Unlocked with <span id="display-selected-plan-name" class="underline">Gold</span> Tier:
           </span>
-          <div id="dynamic-benefits-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600">
-            </div>
+          <div id="dynamic-benefits-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300">
+            <!-- Populated via JS -->
+          </div>
         </div>
 
+        <!-- Lead Collection Form -->
         <form id="lead-submission-form" onsubmit="handleLeadFormSubmit(event)" class="space-y-3.5">
-          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Fill Contact Details to Choose Payment Plan</h4>
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Fill Contact Details to Choose Payment Plan</h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="text-[10px] font-bold text-slate-500 block mb-1">Student Full Name</label>
-              <input type="text" id="lead-name" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">Student Full Name</label>
+              <input type="text" id="lead-name" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
             </div>
             <div>
-              <label class="text-[10px] font-bold text-slate-500 block mb-1">Email Address</label>
-              <input type="email" id="lead-email" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">Email Address</label>
+              <input type="email" id="lead-email" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label class="text-[10px] font-bold text-slate-500 block mb-1">Phone Number</label>
-              <input type="tel" id="lead-phone" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">Phone Number</label>
+              <input type="tel" id="lead-phone" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
             </div>
             <div>
-              <label class="text-[10px] font-bold text-slate-500 block mb-1">WhatsApp Number</label>
-              <input type="tel" id="lead-whatsapp" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">WhatsApp Number</label>
+              <input type="tel" id="lead-whatsapp" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
             </div>
             <div>
-              <label class="text-[10px] font-bold text-slate-500 block mb-1">Class / Batch</label>
-              <input type="text" id="lead-class" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500" required>
+              <label class="text-[10px] font-bold text-slate-400 block mb-1">Class / Batch</label>
+              <input type="text" id="lead-class" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
             </div>
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1">
+          <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-1">
             <i class="fa-solid fa-lock text-xs mr-1"></i>
             <span>Securely Pay via Razorpay Integration</span>
           </button>
         </form>
 
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <p class="text-[11px] text-slate-600 italic">"I unlocked Silver premium access through our referral rewards system. The past entrance papers and physics prep notes have been incredibly helpful!"</p>
-          <span class="text-[9px] text-slate-500 block text-right mt-1">- Karthika, Plus Two Science Student, Kochi</span>
+        <div class="bg-indigo-950/40 p-3 rounded-xl border border-indigo-900/30">
+          <p class="text-[11px] text-slate-300 italic">"I unlocked Silver premium access through our referral rewards system. The past entrance papers and physics prep notes have been incredibly helpful!"</p>
+          <span class="text-[9px] text-slate-400 block text-right mt-1">- Karthika, Plus Two Science Student, Kochi</span>
         </div>
       </div>
 
+      <!-- Step 2: WhatsApp Lead Feedback -->
       <div id="modal-step-success" class="text-center space-y-6 py-6 hidden animate-slideUp">
-        <div class="mx-auto w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+        <div class="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
           <i class="fa-solid fa-circle-check text-3xl"></i>
         </div>
         <div class="space-y-2">
-          <h3 class="text-lg font-black text-slate-800">Application Received Successfully!</h3>
-          <p class="text-xs text-slate-500">Our admissions and premium enrollment team has registered your interest.</p>
+          <h3 class="text-lg font-black text-white">Application Received Successfully!</h3>
+          <p class="text-xs text-slate-300">Our admissions and premium enrollment team has registered your interest.</p>
         </div>
 
         <div class="space-y-3 pt-2">
-          <p class="text-[11px] text-slate-600">Click below to communicate directly with our academic advisors via WhatsApp:</p>
+          <p class="text-[11px] text-slate-400">Click below to communicate directly with our academic support advisors via WhatsApp:</p>
           <a id="whatsapp-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span>Contact Support via WhatsApp</span>
@@ -215,287 +226,403 @@
     </div>
   </div>
 
-  <div class="min-h-screen bg-slate-50 text-slate-900 flex flex-col md:flex-row font-sans">
+  <!-- Main View Container -->
+  <div class="min-h-screen bg-[#020617] text-slate-100 flex flex-col md:flex-row font-sans">
 
-    <div class="md:hidden bg-white p-4 flex justify-between items-center sticky top-0 z-20 border-b border-slate-200">
-      <div class="flex items-center space-x-2 text-indigo-600 font-bold text-xl cursor-pointer" onclick="handleLogoClicks()">
-        <i class="fa-solid fa-book-open"></i>
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-slate-900 p-4 flex justify-between items-center sticky top-0 z-20 border-b border-indigo-950">
+      <div class="flex items-center space-x-2 text-indigo-400 font-bold text-xl cursor-pointer" onclick="handleLogoClicks()">
+        <i class="fa-solid fa-book-open animate-pulse"></i>
         <span>EduNexa Hub</span>
       </div>
-      <button onclick="toggleMobileSidebar()" class="text-slate-600">
+      <button onclick="toggleMobileSidebar()" class="text-slate-400">
         <i id="mobile-menu-icon" class="fa-solid fa-bars text-xl"></i>
       </button>
     </div>
 
-    <aside id="sidebar" class="hidden md:block md:w-64 bg-white border-r border-slate-200 h-screen sticky top-0 flex-shrink-0 p-4 shadow-sm overflow-y-auto z-10">
-      <div class="hidden md:flex items-center space-x-2 text-indigo-600 font-bold text-lg mb-6 px-2 mt-2 cursor-pointer select-none" onclick="handleLogoClicks()">
-        <i class="fa-solid fa-book-open animate-pulse text-indigo-600"></i>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="hidden md:block md:w-64 bg-[#0b0f19] border-r border-indigo-950 h-screen sticky top-0 flex-shrink-0 p-4 shadow-sm overflow-y-auto z-10">
+      <div class="hidden md:flex items-center space-x-2 text-indigo-400 font-bold text-lg mb-6 px-2 mt-2 cursor-pointer select-none" onclick="handleLogoClicks()">
+        <i class="fa-solid fa-book-open animate-pulse text-indigo-400"></i>
         <span>EduNexa Hub</span>
       </div>
 
+      <!-- Navigation Tabs -->
       <nav id="nav-container" class="space-y-1 text-sm font-medium">
-        </nav>
+        <!-- Dynamically loaded on window load via JS -->
+      </nav>
 
+      <!-- Sidebar Native Banner -->
       <div id="sidebar-ad-placement" class="px-2 pt-4 hidden md:block">
-        </div>
+        <!-- Ad Banner populated via JS -->
+      </div>
 
-      <div id="premium-sidebar-widget" class="mt-6 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl border border-indigo-200 text-left">
-        <div class="flex items-center space-x-1.5 text-indigo-700 font-bold text-xs mb-1">
-          <i class="fa-solid fa-star"></i>
+      <!-- Premium Upgrade widget inside sidebar -->
+      <div id="premium-sidebar-widget" class="mt-6 p-4 bg-gradient-to-br from-indigo-950 to-indigo-900 rounded-xl border border-indigo-800 text-left">
+        <div class="flex items-center space-x-1.5 text-amber-400 font-bold text-xs mb-1">
+          <i class="fa-solid fa-star animate-spin"></i>
           <span>Premium Membership</span>
         </div>
-        <p class="text-[11px] text-slate-600 mb-3">No Ads, unlimited study resources, and master revision support.</p>
-        <button onclick="openPremiumModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 rounded-lg transition-all shadow">
+        <p class="text-[11px] text-slate-300 mb-3">No Ads, unlimited study resources, and master revision support.</p>
+        <button onclick="openPremiumModal()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold py-2 rounded-lg transition-all shadow">
           Upgrade Plan
         </button>
       </div>
     </aside>
 
+    <!-- Main Workspace -->
     <main class="flex-1 p-4 md:p-6 overflow-y-auto max-w-6xl mx-auto w-full flex flex-col justify-between">
       
       <div class="space-y-6">
         
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 bg-white p-4 rounded-xl border border-slate-200 gap-4 text-left">
+        <!-- Header Bar -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 bg-slate-900 p-4 rounded-xl border border-indigo-950 gap-4 text-left">
           <div>
             <div class="flex items-center gap-1.5">
-              <span id="role-badge" class="text-[9px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800">
+              <span id="role-badge" class="text-[9px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
                 Student Lounge
               </span>
               <span class="text-xs text-slate-400">Representative Director: <strong>Platform Director</strong></span>
             </div>
-            <h1 id="active-tab-title" class="text-xl font-black text-slate-800 capitalize flex items-center mt-1">
+            <h1 id="active-tab-title" class="text-xl font-black text-white capitalize flex items-center mt-1">
               Dashboard
             </h1>
           </div>
 
           <div class="flex items-center space-x-2">
-            <span id="premium-status-indicator" class="hidden flex items-center bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">
-              <i class="fa-solid fa-star mr-1 text-amber-500"></i> Premium: Gold
+            <span id="premium-status-indicator" class="hidden flex items-center bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-bold border border-amber-500/30">
+              <i class="fa-solid fa-star mr-1 text-amber-400"></i> Premium: Gold
             </span>
 
-            <div class="flex items-center space-x-2 bg-white border border-slate-200 p-1.5 rounded-lg text-right">
+            <div class="flex items-center space-x-2 bg-slate-950 border border-indigo-950 p-1.5 rounded-lg text-right">
               <div>
-                <p id="profile-full-name" class="text-xs font-bold text-slate-800">Rahul Nair</p>
-                <p id="profile-sub-detail" class="text-[9px] text-slate-505 font-medium">Points: 0 Pts</p>
+                <p id="profile-full-name" class="text-xs font-bold text-slate-200">Rahul Nair</p>
+                <p id="profile-sub-detail" class="text-[9px] text-slate-500 font-medium">Points: 0 Pts</p>
               </div>
-              <button onclick="handleProfileLogout()" class="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 px-2.5 py-1.5 rounded font-bold transition-all ml-2">
+              <button onclick="handleProfileLogout()" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white px-2.5 py-1.5 rounded font-bold transition-all ml-2">
                 Logout
               </button>
             </div>
           </div>
         </div>
 
+        <!-- --- WORKSPACE ROUTED TABS --- -->
+
+        <!-- TAB: DASHBOARD -->
         <div id="tab-dashboard" class="tab-view space-y-6 text-left">
-          <div id="admin-summary-strip" class="p-4 bg-slate-900 text-white rounded-xl space-y-3 shadow-md border border-slate-850 hidden">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-2 text-emerald-400">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span class="text-xs font-bold uppercase tracking-wider">Operator Real-Time Earnings Sync</span>
-              </div>
-              <button onclick="handleOwnerLogout()" class="text-[10px] bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded font-bold">
-                Lock Room
+          
+          <!-- Authentication Barrier Block if Logged Out -->
+          <div id="dashboard-auth-block" class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 max-w-md mx-auto space-y-4 shadow-sm text-left">
+            <div class="text-center">
+              <i class="fa-solid fa-book-open text-indigo-400 text-3xl mb-2"></i>
+              <h2 class="text-lg font-bold text-white">Welcome to the Student Lounge</h2>
+              <p class="text-xs text-slate-400">Access targeted Kerala DHSE & SCERT board past resources easily.</p>
+            </div>
+
+            <div class="flex border-b border-indigo-950">
+              <button onclick="changeAuthMode('login')" id="btn-auth-login" class="flex-1 pb-2 text-sm font-bold border-b-2 border-indigo-500 text-indigo-400">
+                Quick Login
+              </button>
+              <button onclick="changeAuthMode('register')" id="btn-auth-register" class="flex-1 pb-2 text-sm font-bold text-slate-500">
+                Register Account
               </button>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
-              <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
-                <span class="text-[10px] text-slate-400 block font-medium">Visitor Impressions</span>
-                <span id="stat-impressions" class="text-sm font-bold text-indigo-300">324 Views</span>
+
+            <!-- Login Form -->
+            <form id="auth-login-form" onsubmit="handleStudentLoginSubmit(event)" class="space-y-3 text-left text-xs">
+              <div>
+                <label class="font-bold text-slate-400">Username ID</label>
+                <input type="text" id="login-username" placeholder="e.g. rahul_nair" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1">
               </div>
-              <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
-                <span class="text-[10px] text-slate-400 block font-medium">Google AdSense Yield</span>
-                <span id="stat-earnings" class="text-sm font-bold text-emerald-400">0.78</span>
+              <div>
+                <label class="font-bold text-slate-400">Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1">
               </div>
-              <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
-                <span class="text-[10px] text-slate-400 block font-medium">Subscriptions Balance</span>
-                <span id="stat-premium-revenue" class="text-sm font-bold text-amber-400">1445.00</span>
+              
+              <!-- Secure Persistent login session check -->
+              <div class="flex items-center space-x-2 pt-1">
+                <input type="checkbox" id="remember-me" class="rounded text-indigo-600 bg-slate-950 border-indigo-950 cursor-pointer" checked>
+                <label htmlFor="remember-me" class="text-[11px] text-slate-300 font-semibold cursor-pointer select-none">
+                  Remember Me (Keep me logged in on this device)
+                </label>
               </div>
-              <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
-                <span class="text-[10px] text-slate-400 block font-medium">Document Fee Yield</span>
-                <span id="stat-service-revenue" class="text-sm font-bold text-blue-400">245.00</span>
+
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors shadow">
+                Log In
+              </button>
+              <p class="text-[9px] text-center text-slate-500 italic mt-2">Demo: Use 'rahul_nair' with any password to log in instantly.</p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="auth-register-form" onsubmit="handleStudentRegisterSubmit(event)" class="space-y-3 text-left text-xs hidden">
+              <div>
+                <label class="font-bold text-slate-400">Desired Username ID</label>
+                <input type="text" id="register-username" placeholder="e.g. jishnu_tvm" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1" required>
               </div>
-            </div>
+              <div>
+                <label class="font-bold text-slate-400">Full Student Name</label>
+                <input type="text" id="register-name" placeholder="e.g. Jishnu Prasad" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1" required>
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block">Phone Number</label>
+                <input type="tel" id="register-phone" placeholder="e.g. +91 94470 12345" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1" required>
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block">WhatsApp Number (Contact safety)</label>
+                <input type="tel" id="register-whatsapp" placeholder="e.g. +91 94470 12345" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1">
+              </div>
+              <div>
+                <label class="font-bold text-slate-400 block">School Name</label>
+                <input type="text" id="register-school" placeholder="e.g. Model HSS" class="w-full bg-[#020617] border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white mt-1">
+              </div>
+              <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors shadow">
+                Register & Enter
+              </button>
+            </form>
           </div>
 
-          <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 text-white p-6 rounded-2xl relative overflow-hidden shadow-md text-left">
-            <div class="relative z-10 max-w-lg space-y-2">
-              <h2 class="text-xl md:text-2xl font-black flex items-center gap-1.5">
-                <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
-                <span>Let's Start Learning, <span id="hero-display-name">Rahul Nair</span>!</span>
-              </h2>
-              <p class="text-xs text-indigo-100 leading-relaxed">
-                Syllabus masterclasses, premium mock exams, dynamic study note generator, and referral reward systems are now structured in one comprehensive space.
-              </p>
-              <p class="text-[10px] text-indigo-200">Registered Number: <span id="hero-display-phone" class="font-semibold text-white">+91 98765 43210</span></p>
-              
-              <div class="flex items-center gap-2 pt-2 flex-wrap">
-                <span class="text-[10px] bg-slate-900 border border-indigo-700 text-amber-300 font-bold px-3 py-1 rounded-full">
-                  Points Balance: <span id="hero-display-points">0</span> Pts
-                </span>
-                <button onclick="navigateToTab('referrals')" class="text-[10px] bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/30 font-bold px-3 py-1 rounded-full transition-all">
-                  Invite Friends (Earn Points)
+          <!-- Secured Dashboard Content Area -->
+          <div id="dashboard-secured-view" class="space-y-6 hidden">
+            <!-- Operator Real-time Earnings Sync (Visible only to authenticated owners) -->
+            <div id="admin-summary-strip" class="p-4 bg-slate-900 text-white rounded-xl space-y-3 shadow-md border border-indigo-950/40 hidden">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2 text-emerald-400">
+                  <i class="fa-solid fa-shield-halved animate-pulse"></i>
+                  <span class="text-xs font-bold uppercase tracking-wider">Operator Real-Time Earnings Sync</span>
+                </div>
+                <button onclick="handleOwnerLogout()" class="text-[10px] bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded font-bold">
+                  Lock Room
+                </button>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
+                  <span class="text-[10px] text-slate-400 block font-medium">Visitor Impressions</span>
+                  <span id="stat-impressions" class="text-sm font-bold text-indigo-300">324 Views</span>
+                </div>
+                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
+                  <span class="text-[10px] text-slate-400 block font-medium">Google AdSense Yield</span>
+                  <span id="stat-earnings" class="text-sm font-bold text-emerald-400">₹0.78</span>
+                </div>
+                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
+                  <span class="text-[10px] text-slate-400 block font-medium">Subscriptions Balance</span>
+                  <span id="stat-premium-revenue" class="text-sm font-bold text-amber-400">₹1445.00</span>
+                </div>
+                <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-left">
+                  <span class="text-[10px] text-slate-400 block font-medium">Document Fee Yield</span>
+                  <span id="stat-service-revenue" class="text-sm font-bold text-blue-400">₹245.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Intro Banner -->
+            <div class="bg-gradient-to-r from-indigo-950 to-indigo-900 text-white p-6 rounded-2xl border border-indigo-900/40 relative overflow-hidden shadow-md text-left">
+              <div class="relative z-10 max-w-lg space-y-2">
+                <h2 class="text-xl md:text-2xl font-black flex items-center gap-1.5">
+                  <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+                  <span>Let's Start Learning, <span id="hero-display-name">Rahul Nair</span>!</span>
+                </h2>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Syllabus masterclasses, premium mock exams, dynamic study note generator, and referral reward systems are now structured in one comprehensive space.
+                </p>
+                <p class="text-[10px] text-indigo-200">Registered Number: <span id="hero-display-phone" class="font-semibold text-white">+91 98765 43210</span></p>
+                
+                <div class="flex items-center gap-2 pt-2 flex-wrap">
+                  <span class="text-[10px] bg-slate-950 border border-indigo-800 text-amber-400 font-bold px-3 py-1 rounded-full">
+                    Points Balance: <span id="hero-display-points">0</span> Pts
+                  </span>
+                  <button onclick="navigateToTab('referrals')" class="text-[10px] bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/30 font-bold px-3 py-1 rounded-full transition-all">
+                    Invite Friends (Earn Points)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Ad Placement -->
+            <div id="hero-ad-placement"></div>
+
+            <!-- Platform Guidelines & Community Rules displayed on page -->
+            <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 text-left space-y-3 shadow-md">
+              <div class="flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-widest border-b border-indigo-950/40 pb-2">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Platform Safety & Community Code of Conduct</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="rules-box-container">
+                <!-- Rendered dynamically in app.js -->
+              </div>
+            </div>
+
+            <!-- Coaching Center Ads & Referral banner grids -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Coaching Center Ads -->
+              <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-3 shadow-md">
+                <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1">
+                  <i class="fa-solid fa-award animate-pulse"></i>
+                  <span>State Coaching Center Advertisements</span>
+                </h3>
+                <div class="space-y-2.5" id="coaching-ads-dashboard">
+                  <!-- Loaded via JS -->
+                </div>
+              </div>
+
+              <!-- Referral micro-widget -->
+              <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-3 flex flex-col justify-between shadow-md">
+                <div class="space-y-1">
+                  <h3 class="text-xs font-black text-indigo-400 uppercase tracking-wider flex items-center gap-1">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Free Premium Access Referral</span>
+                  </h3>
+                  <p class="text-xs text-slate-300">Invite friends (earn 2 points each) and collect 450 points to instantly redeem 1 Month of Silver Plan for completely Free.</p>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-indigo-900/30 text-center space-y-2">
+                  <p class="text-[11px] text-slate-400">Your Referral Code:</p>
+                  <span id="dashboard-referral-code" class="text-sm font-black text-[#4f46e5] font-mono tracking-widest block bg-slate-900 p-1 rounded border border-[#1e293b]">RAHUL150</span>
+                </div>
+                <button onclick="redeemPointsForSilver()" class="w-full bg-[#4f46e5] hover:bg-indigo-600 text-white text-xs font-bold py-2 rounded-xl transition-all shadow-md">
+                  Redeem Points (Need 450 Pts)
                 </button>
               </div>
             </div>
-          </div>
 
-          <div id="hero-ad-placement"></div>
-
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 text-left space-y-3 shadow-sm">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-600 uppercase tracking-widest border-b border-slate-100 pb-2">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>Platform Safety & Community Code of Conduct</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="rules-box-container">
+            <!-- Featured study materials preview -->
+            <div class="space-y-4">
+              <h3 class="text-base font-bold text-slate-200">Featured Study Materials</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="featured-papers-container">
+                <!-- Loaded via JS -->
               </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 shadow-sm">
-              <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider flex items-center gap-1">
-                <i class="fa-solid fa-award"></i>
-                <span>State Coaching Center Advertisements</span>
-              </h3>
-              <div class="space-y-2.5" id="coaching-ads-dashboard">
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 flex flex-col justify-between shadow-sm">
-              <div class="space-y-1">
-                <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider flex items-center gap-1">
-                  <i class="fa-solid fa-share-nodes"></i>
-                  <span>Free Premium Access Referral</span>
-                </h3>
-                <p class="text-xs text-slate-600">Invite friends and collect 450 points to instantly redeem 1 Month of Silver Plan for completely Free.</p>
-              </div>
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center space-y-2">
-                <p class="text-[11px] text-slate-505">Your Referral Code:</p>
-                <span id="dashboard-referral-code" class="text-sm font-black text-indigo-600 font-mono tracking-widest block bg-white p-1 rounded border border-slate-200">RAHUL150</span>
-              </div>
-              <button onclick="redeemPointsForSilver()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 rounded-xl transition-all">
-                Redeem Points (Need 450 Pts)
-              </button>
             </div>
           </div>
 
-          <div class="space-y-4">
-            <h3 class="text-base font-bold text-slate-800">Featured Study Materials</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="featured-papers-container">
-              </div>
-          </div>
         </div>
 
+        <!-- TAB: AI NOTES & STUDY GEN -->
         <div id="tab-ai-notes" class="tab-view space-y-6 text-left hidden">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+          <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 space-y-4 shadow-md">
             <div class="max-w-xl">
-              <h2 class="text-base font-bold text-slate-900">StudyVerse Local AI Research Assistant</h2>
-              <p class="text-xs text-slate-500 mt-1">
+              <h2 class="text-base font-bold text-white">StudyVerse Local AI Research Assistant</h2>
+              <p class="text-xs text-slate-400 mt-1">
                 Type a topic keyword (such as "optics", "organic chemistry", or "circle theorems") to instantly render high-quality study outlines.
               </p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-2">
-              <input type="text" id="ai-prompt-input" placeholder="E.g., Wave optics Huygens derivation or SCERT Math Circle..." class="flex-1 text-xs border rounded-lg p-2.5 outline-none text-slate-900 font-medium">
+              <input type="text" id="ai-prompt-input" placeholder="E.g., Wave optics Huygens derivation or SCERT Math Circle..." class="flex-1 text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white font-medium">
               <button onclick="triggerAINotesGen()" id="btn-ai-gen" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow">
-                <i class="fa-solid fa-sparkles text-amber-300"></i>
+                <i class="fa-solid fa-sparkles text-amber-300 animate-pulse"></i>
                 <span>Generate Syllabus Notes</span>
               </button>
             </div>
           </div>
 
+          <!-- Native Injected Ad Slot Between Notes -->
           <div id="ai-notes-ad-placement"></div>
 
-          <div id="ai-output-box" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hidden animate-slideUp">
-            <div class="bg-slate-50 border-b border-slate-100 px-4 py-3 flex justify-between items-center">
-              <span class="text-xs font-bold text-indigo-600 flex items-center gap-1">
-                <i class="fa-solid fa-sparkles text-amber-500"></i> Output Outline
+          <!-- AI Generator Output Box -->
+          <div id="ai-output-box" class="bg-slate-900 rounded-2xl border border-indigo-950 shadow-sm overflow-hidden hidden animate-slideUp">
+            <div class="bg-slate-950 border-b border-indigo-950 px-4 py-3 flex justify-between items-center">
+              <span class="text-xs font-bold text-indigo-400 flex items-center gap-1">
+                <i class="fa-solid fa-sparkles text-amber-450 animate-bounce"></i> Output Outline
               </span>
-              <button onclick="downloadRawAiText()" class="text-[10px] bg-white hover:bg-slate-55 text-slate-700 border border-slate-200 px-2.5 py-1 rounded font-bold flex items-center gap-1 shadow-sm">
+              <button onclick="downloadRawAiText()" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-200 border border-indigo-950 px-2.5 py-1 rounded font-bold flex items-center gap-1 shadow-sm">
                 <i class="fa-solid fa-download"></i> Save Raw Text
               </button>
             </div>
-            <div class="p-6 bg-slate-55 overflow-y-auto max-h-[400px]">
-              <pre id="ai-pre-container" class="text-xs text-slate-700 font-sans whitespace-pre-wrap leading-relaxed"></pre>
+            <div class="p-6 bg-[#0b0f19]/30 overflow-y-auto max-h-[400px]">
+              <pre id="ai-pre-container" class="text-xs text-slate-300 font-sans whitespace-pre-wrap leading-relaxed"></pre>
             </div>
           </div>
         </div>
 
+        <!-- TAB: KERALA MODEL PAPERS -->
         <div id="tab-papers" class="tab-view space-y-6 text-left hidden">
-          <div id="viewer-container" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hidden animate-slideUp">
-            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex flex-wrap justify-between items-center gap-2">
+          <!-- Document Viewer Frame -->
+          <div id="viewer-container" class="bg-slate-900 rounded-2xl border border-indigo-950 overflow-hidden hidden animate-slideUp">
+            <div class="bg-slate-950 px-4 py-3 border-b border-indigo-950/40 flex flex-wrap justify-between items-center gap-2">
               <div>
-                <span id="view-board-tag" class="text-[9px] bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded uppercase">HSSLive</span>
-                <h3 id="view-title" class="text-sm font-bold text-slate-800 mt-1">Physics Paper</h3>
+                <span id="view-board-tag" class="text-[9px] bg-indigo-900/40 text-indigo-400 font-bold px-2 py-0.5 rounded uppercase">HSSLive</span>
+                <h3 id="view-title" class="text-sm font-bold text-slate-200 mt-1">Physics Paper</h3>
               </div>
               <div class="flex items-center space-x-2">
                 <button onclick="downloadPaperText()" class="text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded font-bold flex items-center gap-1">
                   <i class="fa-solid fa-download"></i> Download (.txt)
                 </button>
-                <button onclick="closeDocumentReader()" class="text-[10px] text-slate-400 hover:text-slate-600 font-bold px-2 py-1.5">
+                <button onclick="closeDocumentReader()" class="text-[10px] text-slate-400 hover:text-slate-200 font-bold px-2 py-1.5">
                   Close Reader
                 </button>
               </div>
             </div>
-            <div id="viewer-paper-content" class="p-6 bg-slate-900 text-slate-100 font-mono text-xs overflow-y-auto max-h-[500px] whitespace-pre-wrap leading-relaxed select-text">
-              </div>
+            <div id="viewer-paper-content" class="p-6 bg-slate-950 text-slate-100 font-mono text-xs overflow-y-auto max-h-[500px] whitespace-pre-wrap leading-relaxed select-text">
+              <!-- Loaded dynamically via JS -->
+            </div>
           </div>
 
+          <!-- List of papers -->
           <div class="space-y-4">
             <div class="flex justify-between items-center">
-              <h3 class="text-base font-bold text-slate-800">Available Paper Repository</h3>
+              <h3 class="text-base font-bold text-slate-200">Available Paper Repository</h3>
               <span id="papers-count" class="text-xs text-slate-500 font-semibold">2 Units Available</span>
             </div>
             <div id="papers-container" class="grid grid-cols-1 gap-3">
-              </div>
+              <!-- Populated via JS -->
+            </div>
           </div>
         </div>
 
+        <!-- TAB: ONLINE MOCK TESTS -->
         <div id="tab-mock-tests" class="tab-view space-y-6 text-left hidden">
+          <!-- Test Selector Screen -->
           <div id="mock-selector-screen" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            </div>
+            <!-- Rendered via JS -->
+          </div>
 
-          <div id="active-mock-box" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6 hidden">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 id="active-mock-title" class="text-base font-bold text-slate-800">Maths Mock</h3>
-              <button onclick="exitActiveMock()" class="text-xs text-slate-500 underline">
+          <!-- Active Exam Screen -->
+          <div id="active-mock-box" class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 shadow-sm space-y-6 hidden">
+            <div class="flex justify-between items-center pb-3 border-b border-indigo-950/40">
+              <h3 id="active-mock-title" class="text-base font-bold text-slate-200">Maths Mock</h3>
+              <button onclick="exitActiveMock()" class="text-xs text-slate-450 underline">
                 Exit Exam
               </button>
             </div>
 
             <div id="questions-viewport" class="space-y-5">
-              </div>
+              <!-- Populated via JS -->
+            </div>
 
             <button onclick="submitCompletedMock()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-6 rounded-lg">
               Submit Answers
             </button>
           </div>
 
-          <div id="mock-result-box" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center py-6 hidden">
-            <i class="fa-solid fa-award text-3xl text-emerald-500 mx-auto"></i>
+          <!-- Assessment score screen -->
+          <div id="mock-result-box" class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 shadow-sm text-center py-6 hidden">
+            <i class="fa-solid fa-award text-3xl text-emerald-500 mx-auto animate-bounce"></i>
             <h4 class="text-lg font-bold mt-2">Exam Assessment Complete</h4>
-            <p id="mock-score-display" class="text-2xl font-black text-indigo-600 mt-4">1 / 2</p>
-            <button onclick="exitActiveMock()" class="mt-4 text-xs text-slate-500 underline block mx-auto">
+            <p id="mock-score-display" class="text-2xl font-black text-indigo-400 mt-4">1 / 2</p>
+            <button onclick="exitActiveMock()" class="mt-4 text-xs text-slate-400 underline block mx-auto">
               Return to Test Library
             </button>
           </div>
         </div>
 
-        <div id="tab-groups" class="tab-view grid grid-cols-1 lg:grid-cols-3 gap-6 text-left hidden">
+        <!-- TAB: CIRCLE CHAT -->
+        <div id="tab-groups" class="tab-view grid grid-cols-1 lg:grid-cols-3 gap-6 text-left hidden animate-fadeIn">
           <div class="lg:col-span-1 space-y-4">
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-              <h3 class="text-sm font-bold text-slate-800 mb-2">Weekly Goals</h3>
+            <div class="bg-slate-900 p-4 rounded-xl border border-indigo-950 shadow-sm">
+              <h3 class="text-sm font-bold text-slate-200 mb-2">Weekly Goals</h3>
               <div class="space-y-3" id="study-plans-checkboxes">
-                </div>
+                <!-- Loaded via JS -->
+              </div>
             </div>
           </div>
 
-          <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-[400px]">
-            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
-              <h3 class="text-xs font-bold text-slate-800">Kerala Prep Room Chat</h3>
+          <div class="lg:col-span-2 bg-slate-900 rounded-2xl border border-indigo-950 shadow-sm flex flex-col justify-between h-[400px]">
+            <div class="bg-slate-950 px-4 py-3 border-b border-indigo-950/40 flex justify-between items-center">
+              <h3 class="text-xs font-bold text-slate-200">Kerala Prep Room Chat</h3>
             </div>
             <div id="chat-messages-viewport" class="flex-1 p-4 overflow-y-auto space-y-4">
-              </div>
-            <form onsubmit="handleChatSend(event)" class="p-3 border-t border-slate-200 flex space-x-2 bg-slate-50">
-              <input type="text" id="chat-text-input" placeholder="Type a message..." class="flex-1 text-xs border rounded-lg p-2 outline-none text-slate-900 focus:border-indigo-500">
+              <!-- Message bubbles loaded via JS -->
+            </div>
+            <form onsubmit="handleChatSend(event)" class="p-3 border-t border-indigo-950/40 flex space-x-2 bg-slate-950">
+              <input type="text" id="chat-text-input" placeholder="Type a message..." class="flex-1 text-xs bg-slate-900 border border-indigo-950 rounded-lg p-2 outline-none text-white focus:border-indigo-500">
               <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg">
                 <i class="fa-solid fa-paper-plane"></i>
               </button>
@@ -503,28 +630,32 @@
           </div>
         </div>
 
+        <!-- TAB: ACADEMY COURSES -->
         <div id="tab-courses" class="tab-view space-y-6 text-left hidden">
-          <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100">
-            <h2 class="text-base font-black text-slate-800">EduNexa Academy Premium Batches</h2>
-            <p class="text-xs text-slate-600 mt-1">Learn from Kerala's most trusted teachers. Integrated online classes with real-time doubt clearing sessions.</p>
+          <div class="bg-indigo-950/20 p-5 rounded-2xl border border-indigo-900/40">
+            <h2 class="text-base font-black text-white">EduNexa Academy Premium Batches</h2>
+            <p class="text-xs text-slate-300 mt-1">Learn from Kerala's most trusted teachers. Integrated online classes with real-time doubt clearing sessions.</p>
           </div>
           <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            </div>
+            <!-- Rendered via JS -->
+          </div>
         </div>
 
-        <div id="tab-referrals" class="tab-view space-y-6 text-left hidden">
+        <!-- TAB: REFERRAL HUB -->
+        <div id="tab-referrals" class="tab-view space-y-6 text-left hidden animate-fadeIn">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <!-- Invite friend form -->
+            <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-4">
               <div class="space-y-1">
-                <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider">Invite Friends & Earn Points</h3>
-                <p class="text-xs text-slate-600">Earn exactly 2 Points for every friend who registers using your secret link.</p>
-                <p class="text-[10px] text-amber-600 font-bold"><i class="fa-solid fa-circle-info mr-1"></i> Daily limit of maximum 3 referrals per 24 hours.</p>
+                <h3 class="text-xs font-black text-indigo-400 uppercase tracking-wider">Invite Friends & Earn Points</h3>
+                <p class="text-xs text-slate-300">Earn exactly 2 Points for every friend who registers using your secret link.</p>
+                <p class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-circle-info mr-1"></i> Daily limit of maximum 3 referrals per 24 hours.</p>
               </div>
 
               <form onsubmit="handleReferralInviteSubmit(event)" class="space-y-3.5">
                 <div>
-                  <label class="text-[10px] font-bold text-slate-500 block mb-1">Friend's Name</label>
-                  <input type="text" id="refer-friend-name" placeholder="e.g. Abhirami Prasad" class="w-full text-xs rounded-lg p-2.5 outline-none focus:border-indigo-500 text-slate-900" required>
+                  <label class="text-[10px] font-bold text-slate-400 block mb-1">Friend's Name</label>
+                  <input type="text" id="refer-friend-name" placeholder="e.g. Abhirami Prasad" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
                 </div>
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg shadow-md">
                   Generate Invitation Link & Credit Points
@@ -532,66 +663,71 @@
               </form>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <!-- Points wallet redeem -->
+            <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 flex flex-col justify-between">
               <div class="space-y-1">
-                <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider">Redeem Points</h3>
-                <p class="text-xs text-slate-600">With the new point structure, you need 450 points to redeem a free Month of Silver Premium Plan.</p>
+                <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider">Redeem Points</h3>
+                <p class="text-xs text-slate-300">With the new point structure, you need 450 points to redeem a free Month of Silver Premium Plan.</p>
               </div>
               
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
+              <div class="bg-slate-950 p-4 rounded-xl border border-indigo-900/30 text-center">
                 <p class="text-xs text-slate-500 font-semibold">Your Current Points Balance:</p>
-                <span id="referral-points-balance" class="text-3xl font-black text-indigo-600 block mt-1">0 Pts</span>
+                <span id="referral-points-balance" class="text-3xl font-black text-amber-400 block mt-1">0 Pts</span>
               </div>
 
-              <button onclick="redeemPointsForSilver()" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs font-bold py-2.5 rounded-xl transition-all">
+              <button onclick="redeemPointsForSilver()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 text-xs font-bold py-2.5 rounded-xl transition-all">
                 Redeem 1 Month Silver Access (Requires 450 Pts)
               </button>
             </div>
           </div>
 
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-            <h3 class="text-xs font-black text-slate-800 uppercase tracking-wider">Your Referral History</h3>
+          <!-- History -->
+          <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-3">
+            <h3 class="text-xs font-black text-slate-200 uppercase tracking-wider">Your Referral History</h3>
             <div id="referrals-history-list" class="space-y-2">
-              </div>
+              <!-- Populated via JS -->
+            </div>
           </div>
         </div>
 
+        <!-- TAB: PORTFOLIO -->
         <div id="tab-portfolio" class="tab-view grid grid-cols-1 lg:grid-cols-2 gap-6 text-left hidden">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-            <h3 class="text-sm font-bold text-slate-800">Fill Portfolio Details</h3>
+          <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 space-y-4 shadow-md">
+            <h3 class="text-sm font-bold text-slate-200">Fill Portfolio Details</h3>
             <div class="space-y-3 text-xs">
               <div>
-                <label class="text-[10px] font-bold text-slate-55 block mb-1">Student Full Name</label>
-                <input type="text" id="resume-name" class="w-full text-xs rounded-lg p-2 text-slate-900 focus:border-indigo-500 outline-none">
+                <label class="text-[10px] font-bold text-slate-500 block mb-1">Student Name</label>
+                <input type="text" id="resume-name" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2 text-white focus:border-indigo-500 outline-none">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-slate-55 block mb-1">Contact Phone Number</label>
-                <input type="text" id="resume-phone" class="w-full text-xs rounded-lg p-2 text-slate-900 focus:border-indigo-500 outline-none">
+                <label class="text-[10px] font-bold text-slate-500 block mb-1">Contact Phone Number</label>
+                <input type="text" id="resume-phone" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2 text-white focus:border-indigo-500 outline-none">
               </div>
               <div>
-                <label class="text-[10px] font-bold text-slate-55 block mb-1">School Email</label>
-                <input type="email" id="resume-email" class="w-full text-xs rounded-lg p-2 text-slate-900 focus:border-indigo-500 outline-none">
+                <label class="text-[10px] font-bold text-slate-500 block mb-1">School Email</label>
+                <input type="email" id="resume-email" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2 text-white focus:border-indigo-500 outline-none">
               </div>
             </div>
           </div>
 
           <div class="space-y-4">
-            <button onclick="downloadPortfolioFile()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg flex items-center justify-center gap-1.5 shadow">
+            <button onclick="downloadPortfolioFile()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg flex items-center justify-center gap-1.5 shadow-md">
               <i class="fa-solid fa-download"></i> Download Portfolio (.txt)
             </button>
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-xs">
-              <h4 id="resume-view-name" class="font-bold text-center border-b pb-2 uppercase text-slate-800">Rahul Nair</h4>
-              <p class="mt-2 text-slate-600">Phone: <span id="resume-view-phone">+91 98765 43210</span></p>
-              <p class="text-slate-600">Email: <span id="resume-view-email">rahul.nair@school.in</span></p>
+            <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 text-xs shadow-md">
+              <h4 id="resume-view-name" class="font-bold text-center border-b border-indigo-950 pb-2 uppercase text-white">Rahul Nair</h4>
+              <p class="mt-2 text-slate-300">Phone: <span id="resume-view-phone">+91 98765 43210</span></p>
+              <p class="text-slate-300">Email: <span id="resume-view-email">rahul.nair@school.in</span></p>
             </div>
           </div>
         </div>
 
+        <!-- TAB: SCHOLARSHIPS -->
         <div id="tab-scholarships" class="tab-view space-y-6 text-left hidden">
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <div class="bg-slate-900 p-4 rounded-xl border border-indigo-950 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 shadow-md">
             <div>
               <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Live database sync</h3>
-              <h4 class="text-sm font-bold text-slate-850">Higher Education Grants & Scholarship Funds</h4>
+              <h4 class="text-sm font-bold text-slate-200">Higher Education Grants & Scholarship Funds</h4>
             </div>
             <button onclick="triggerScholarshipSync()" id="btn-sync-schol" class="bg-indigo-600 text-white text-xs font-bold py-2 px-4 rounded-lg flex items-center gap-1.5 shadow transition-colors">
               <i class="fa-solid fa-rotate animate-spin hidden" id="spin-schol"></i>
@@ -600,205 +736,220 @@
           </div>
 
           <div id="scholarships-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            </div>
+            <!-- Populated via JS -->
+          </div>
         </div>
 
-        <div id="tab-tools" class="tab-view grid grid-cols-1 lg:grid-cols-2 gap-6 text-left hidden">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <!-- TAB: TOOLS & CALCULATORS -->
+        <div id="tab-tools" class="tab-view grid grid-cols-1 lg:grid-cols-2 gap-6 text-left hidden animate-fadeIn">
+          <!-- Countdown widget -->
+          <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 shadow-sm space-y-4 shadow-md">
             <div class="space-y-1">
-              <h3 class="text-sm font-bold text-slate-800">Board Exam Countdown</h3>
-              <p class="text-xs text-slate-505">Track standard remaining time till board examinations begin on March 10th, 2027.</p>
+              <h3 class="text-sm font-bold text-slate-200">Board Exam Countdown</h3>
+              <p class="text-xs text-slate-400">Track standard remaining time till board examinations begin on March 10th, 2027.</p>
             </div>
 
             <div class="grid grid-cols-4 gap-2 text-center text-xs">
-              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <span id="countdown-days" class="text-xl font-extrabold text-indigo-600 block">0</span>
-                <span class="text-[9px] text-slate-500 font-bold uppercase">Days</span>
+              <div class="bg-[#0b0f19] p-3 rounded-lg border border-indigo-950">
+                <span id="countdown-days" class="text-xl font-extrabold text-indigo-400 block">0</span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase">Days</span>
               </div>
-              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <span id="countdown-hours" class="text-xl font-extrabold text-indigo-600 block">0</span>
-                <span class="text-[9px] text-slate-500 font-bold uppercase">Hours</span>
+              <div class="bg-[#0b0f19] p-3 rounded-lg border border-indigo-950">
+                <span id="countdown-hours" class="text-xl font-extrabold text-indigo-400 block">0</span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase">Hours</span>
               </div>
-              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <span id="countdown-mins" class="text-xl font-extrabold text-indigo-600 block">0</span>
-                <span class="text-[9px] text-slate-500 font-bold uppercase">Mins</span>
+              <div class="bg-[#0b0f19] p-3 rounded-lg border border-indigo-950">
+                <span id="countdown-mins" class="text-xl font-extrabold text-indigo-400 block">0</span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase">Mins</span>
               </div>
-              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <span id="countdown-secs" class="text-xl font-extrabold text-indigo-600 block">0</span>
-                <span class="text-[9px] text-slate-500 font-bold uppercase">Secs</span>
+              <div class="bg-[#0b0f19] p-3 rounded-lg border border-indigo-950">
+                <span id="countdown-secs" class="text-xl font-extrabold text-indigo-400 block">0</span>
+                <span class="text-[9px] text-slate-400 font-bold uppercase">Secs</span>
               </div>
             </div>
 
             <div>
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Target Exam Date</label>
-              <input type="date" id="exam-date-input" value="2027-03-10" onchange="handleExamDateChange()" class="w-full text-xs border border-slate-200 rounded-lg p-2 text-slate-900 outline-none">
+              <input type="date" id="exam-date-input" value="2027-03-10" onchange="handleExamDateChange()" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2 text-white outline-none">
             </div>
           </div>
 
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <!-- Mark Calculator -->
+          <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 shadow-sm space-y-4 shadow-md">
             <div class="space-y-1">
-              <h3 class="text-sm font-bold text-slate-800">State Syllabus Mark Analyzer</h3>
-              <p class="text-xs text-slate-505">Calculate percentage conversions instantly.</p>
+              <h3 class="text-sm font-bold text-slate-200">State Syllabus Mark Analyzer</h3>
+              <p class="text-xs text-slate-400">Calculate percentage conversions instantly.</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3 text-xs">
               <div>
                 <label class="text-[10px] font-bold text-slate-400 block mb-1">Obtained Mark Score</label>
-                <input type="number" id="calc-obtained" placeholder="e.g. 540" value="540" class="w-full text-xs border border-slate-200 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-slate-900">
+                <input type="number" id="calc-obtained" placeholder="e.g. 540" value="540" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white">
               </div>
               <div>
                 <label class="text-[10px] font-bold text-slate-400 block mb-1">Maximum Combined Total</label>
-                <input type="number" id="calc-total" placeholder="e.g. 600" value="600" class="w-full text-xs border border-slate-200 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-slate-900">
+                <input type="number" id="calc-total" placeholder="e.g. 600" value="600" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white">
               </div>
             </div>
 
-            <button onclick="runGpaAnalysis()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors shadow">
+            <button onclick="runGpaAnalysis()" class="w-full bg-[#4f46e5] hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors shadow-md">
               Analyse & Calculate Grade
             </button>
 
-            <div id="calc-result-strip" class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center hidden animate-slideUp">
+            <div id="calc-result-strip" class="p-4 bg-slate-950 border border-indigo-950 rounded-xl flex justify-between items-center hidden animate-slideUp">
               <div>
                 <span class="text-[10px] text-slate-400 block font-bold">Calculated Percentage</span>
                 <span id="result-percentage" class="text-lg font-extrabold text-slate-800">90%</span>
               </div>
               <div class="text-right">
                 <span class="text-[10px] text-slate-400 block font-bold">Assigned Board Grade</span>
-                <span id="result-grade" class="text-lg font-extrabold text-indigo-700">A+</span>
+                <span id="result-grade" class="text-lg font-extrabold text-indigo-400">A+</span>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- TAB: OPERATOR Control Panel -->
         <div id="tab-operator" class="tab-view space-y-6 text-left hidden">
-          <div id="operator-auth-barrier" class="bg-white p-6 rounded-2xl border border-slate-200 max-w-sm mx-auto space-y-4 shadow-sm">
+          <!-- Auth barrier if not authenticated -->
+          <div id="operator-auth-barrier" class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 max-w-sm mx-auto space-y-4 shadow-md">
             <div class="text-center">
               <i class="fa-solid fa-shield-halved text-amber-500 text-3xl animate-pulse mb-2"></i>
-              <h3 class="text-base font-extrabold text-slate-800">Administrator Credentials Required</h3>
+              <h3 class="text-base font-extrabold text-white">Administrator Credentials Required</h3>
               <p class="text-xs text-slate-400">Unlock control capabilities to calibrate live platform attributes.</p>
             </div>
 
             <form onsubmit="handleOperatorLogin(event)" class="space-y-3 text-xs">
               <div>
                 <label class="text-[10px] font-bold text-slate-500 block mb-1">Secret Key</label>
-                <input type="password" id="operator-key-field" placeholder="Enter administrator passcode" class="w-full text-xs border rounded-lg p-2.5 outline-none focus:border-indigo-500 text-slate-950" required>
+                <input type="password" id="operator-key-field" placeholder="Enter administrator passcode" class="w-full text-xs bg-slate-950 border border-indigo-950 rounded-lg p-2.5 outline-none focus:border-indigo-500 text-white" required>
               </div>
               <p id="operator-auth-error" class="text-[10px] text-red-500 font-semibold hidden"></p>
-              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg shadow">
+              <button type="submit" class="w-full bg-[#4f46e5] hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg shadow-md">
                 Verify Credentials
               </button>
               <p class="text-[9px] text-center text-slate-500 font-semibold">Passcode: owner2026</p>
             </form>
           </div>
 
-          <div id="operator-secured-panel" class="space-y-6 hidden">
+          <!-- Secured Content Panel -->
+          <div id="operator-secured-panel" class="space-y-6 hidden animate-slideUp">
+            <!-- Metrics & lead listings -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
-                  <i class="fa-solid fa-users"></i>
+              <!-- Lead Enquiries -->
+              <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-3 shadow-md">
+                <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-users text-amber-400"></i>
                   <span>Premium Enquiries & Leads (WhatsApp Collection)</span>
                 </h3>
                 <div class="space-y-2 max-h-[300px] overflow-y-auto" id="admin-leads-list">
-                  </div>
+                  <!-- Populated via JS -->
+                </div>
               </div>
 
-              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <h3 class="text-xs font-black text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
-                  <i class="fa-solid fa-chart-line"></i>
+              <!-- Financial overview -->
+              <div class="bg-slate-900 p-5 rounded-2xl border border-indigo-950 space-y-4 shadow-md">
+                <h3 class="text-xs font-black text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-chart-line text-indigo-400"></i>
                   <span>Real-time Financial Analytics Dashboard</span>
                 </h3>
                 
-                <div class="space-y-2.5 text-xs text-slate-505">
-                  <div class="flex justify-between border-b border-slate-100 pb-1.5">
+                <div class="space-y-2.5 text-xs text-slate-300">
+                  <div class="flex justify-between border-b border-indigo-950/40 pb-1.5">
                     <span>Total Ad Impressions:</span>
-                    <span id="admin-impressions-total" class="font-bold text-slate-800">0</span>
+                    <span id="admin-impressions-total" class="font-bold text-white">0</span>
                   </div>
-                  <div class="flex justify-between border-b border-slate-100 pb-1.5">
+                  <div class="flex justify-between border-b border-indigo-950/40 pb-1.5">
                     <span>Google AdSense Earnings:</span>
-                    <span id="admin-adsense-total" class="font-bold text-emerald-600">₹0.00</span>
+                    <span id="admin-adsense-total" class="font-bold text-emerald-400">₹0.00</span>
                   </div>
-                  <div class="flex justify-between border-b border-slate-100 pb-1.5">
+                  <div class="flex justify-between border-b border-indigo-950/40 pb-1.5">
                     <span>Premium Upgrade Sales:</span>
                     <span id="admin-sales-total" class="font-bold text-emerald-400">₹0.00</span>
                   </div>
-                  <div class="flex justify-between border-b border-slate-100 pb-1.5">
+                  <div class="flex justify-between border-b border-indigo-950/40 pb-1.5">
                     <span>Processing/Syllabus Fee (₹49):</span>
                     <span id="admin-fee-total" class="font-bold text-emerald-400">₹0.00</span>
                   </div>
-                  <div class="flex justify-between pt-2 text-slate-850 font-bold text-sm">
+                  <div class="flex justify-between pt-2 text-slate-200 font-bold text-sm">
                     <span>Total Platform Yield:</span>
-                    <span id="admin-gross-yield" class="text-indigo-600">₹0.00</span>
+                    <span id="admin-gross-yield" class="text-indigo-400">₹0.00</span>
                   </div>
                 </div>
               </div>
             </div>
 
+            <!-- Configuration panels -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               
-              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 text-xs">
-                <h3 class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100">Adjust Ad Rates & Price</h3>
+              <!-- Adjust General Rates -->
+              <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 space-y-4 text-xs shadow-md">
+                <h3 class="text-sm font-bold text-slate-200 pb-2 border-b border-indigo-950/40">Adjust Ad Rates & Price</h3>
                 
                 <div>
-                  <label class="text-[10px] font-bold text-slate-500 block mb-1">Visitor Count Base</label>
-                  <input type="number" id="config-visitors" class="w-full text-xs rounded-lg p-2 text-slate-900 outline-none">
+                  <label class="text-[10px] font-bold text-slate-400 block mb-1">Visitor Count Base</label>
+                  <input type="number" id="config-visitors" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white outline-none">
                 </div>
 
                 <div>
-                  <label class="text-[10px] font-bold text-slate-500 block mb-1">Simulated AdSense CPM Rate (₹)</label>
-                  <input type="number" id="config-cpm" class="w-full text-xs rounded-lg p-2 text-slate-900 outline-none">
+                  <label class="text-[10px] font-bold text-slate-400 block mb-1">Simulated AdSense CPM Rate (₹)</label>
+                  <input type="number" id="config-cpm" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white outline-none">
                 </div>
                 
-                <button onclick="saveAdminGeneralConfig()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
+                <button onclick="saveAdminGeneralConfig()" class="w-full bg-[#4f46e5] hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
                   Save General Settings
                 </button>
               </div>
 
-              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 text-xs">
-                <h3 class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100 flex items-center gap-1.5">
-                  <i class="fa-solid fa-shield text-indigo-600"></i>
+              <!-- Live AdSense ID & Slot Configurations -->
+              <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 space-y-4 text-xs shadow-md">
+                <h3 class="text-sm font-bold text-slate-200 pb-2 border-b border-indigo-950/40 flex items-center gap-1.5">
+                  <i class="fa-solid fa-shield text-indigo-400"></i>
                   <span>Google AdSense ID & Units</span>
                 </h3>
                 
                 <div class="space-y-3">
                   <div>
-                    <label class="text-[10px] font-bold text-slate-500 block mb-0.5">Publisher ID (ca-pub-xxx)</label>
-                    <input type="text" id="config-adsense-id" class="w-full text-xs rounded-lg p-2 text-slate-900 font-mono outline-none">
+                    <label class="text-[10px] font-bold text-slate-400 block mb-0.5">Publisher ID (ca-pub-xxx)</label>
+                    <input type="text" id="config-adsense-id" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white font-mono outline-none">
                   </div>
                   <div>
-                    <label class="text-[10px] font-bold text-slate-45 block mb-0.5">Below Hero Slot ID</label>
-                    <input type="text" id="config-slot-hero" class="w-full text-xs rounded-lg p-2 text-slate-900 font-mono outline-none">
+                    <label class="text-[10px] font-bold text-slate-400 block mb-0.5">Below Hero Slot ID</label>
+                    <input type="text" id="config-slot-hero" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white font-mono outline-none">
                   </div>
                   <div>
-                    <label class="text-[10px] font-bold text-slate-45 block mb-0.5">Sidebar Slot ID</label>
-                    <input type="text" id="config-slot-sidebar" class="w-full text-xs rounded-lg p-2 text-slate-900 font-mono outline-none">
+                    <label class="text-[10px] font-bold text-slate-400 block mb-0.5">Sidebar Slot ID</label>
+                    <input type="text" id="config-slot-sidebar" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white font-mono outline-none">
                   </div>
                   <div>
-                    <label class="text-[10px] font-bold text-slate-45 block mb-0.5">Between Notes Slot ID</label>
-                    <input type="text" id="config-slot-notes" class="w-full text-xs rounded-lg p-2 text-slate-900 font-mono outline-none">
+                    <label class="text-[10px] font-bold text-slate-400 block mb-0.5">Between Notes Slot ID</label>
+                    <input type="text" id="config-slot-notes" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white font-mono outline-none">
                   </div>
                   <div>
-                    <label class="text-[10px] font-bold text-slate-45 block mb-0.5">Above Footer Slot ID</label>
-                    <input type="text" id="config-slot-footer" class="w-full text-xs rounded-lg p-2 text-slate-900 font-mono outline-none">
+                    <label class="text-[10px] font-bold text-slate-400 block mb-0.5">Above Footer Slot ID</label>
+                    <input type="text" id="config-slot-footer" class="w-full text-xs bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white font-mono outline-none">
                   </div>
                 </div>
                 
-                <button onclick="saveAdminAdSlots()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
+                <button onclick="saveAdminAdSlots()" class="w-full bg-[#4f46e5] hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
                   Save Ad Slot Configurations
                 </button>
               </div>
 
-              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 text-xs">
-                <h3 class="text-sm font-bold text-slate-800 pb-2 border-b border-slate-100">Inject Question Paper</h3>
+              <!-- Inject Question Paper -->
+              <div class="bg-slate-900 p-6 rounded-2xl border border-indigo-950 space-y-4 text-xs shadow-md">
+                <h3 class="text-sm font-bold text-slate-200 pb-2 border-b border-indigo-950/40">Inject Question Paper</h3>
                 
                 <form onsubmit="handlePaperInjection(event)" class="space-y-3 text-xs">
                   <div>
-                    <label class="font-semibold text-slate-500 block mb-1">Paper Title</label>
-                    <input type="text" id="inject-paper-title" placeholder="e.g. Plus Two Biology Model Exam" class="w-full rounded-lg p-2 text-slate-900 outline-none focus:border-indigo-500" required>
+                    <label class="font-semibold text-slate-400 block mb-1">Paper Title</label>
+                    <input type="text" id="inject-paper-title" placeholder="e.g. Plus Two Biology Model Exam" class="w-full bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white outline-none focus:border-indigo-500" required>
                   </div>
                   <div>
                     <label class="font-semibold text-slate-400 block mb-1">Full Raw Paper Text Content</label>
-                    <textarea id="inject-paper-content" rows="4" placeholder="Add full instructions, Section A, B, C questions..." class="w-full rounded-lg p-2 text-slate-900 outline-none focus:border-indigo-500 font-mono resize-none text-[10px]" required></textarea>
+                    <textarea id="inject-paper-content" rows="4" placeholder="Add full instructions, Section A, B, C questions..." class="w-full bg-[#0b0f19] border border-indigo-950 rounded-lg p-2 text-white outline-none focus:border-indigo-500 font-mono resize-none text-[10px]" required></textarea>
                   </div>
-                  <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
+                  <button type="submit" class="w-full bg-[#4f46e5] hover:bg-indigo-700 text-white font-bold py-2 rounded-lg">
                     Submit & Index Material
                   </button>
                 </form>
@@ -810,7 +961,8 @@
 
       </div>
 
-      <div class="mt-8 pt-4 border-t border-slate-200 w-full text-center">
+      <!-- Footer with global above footer banner -->
+      <div class="mt-8 pt-4 border-t border-indigo-950 w-full text-center">
         <div id="footer-ad-placement"></div>
         <p class="text-center text-[10px] text-slate-500 mt-2 font-mono">
           © 2026 EduNexa Business Platform. Sourced and styled under clean Kerala Board directives.
@@ -820,6 +972,7 @@
     </main>
   </div>
 
+  <!-- Unified and Secured JavaScript Execution Layer -->
   <script>
     // Configuration State matching your AdSense & Razorpay layout requirements
     const GLOBAL_CONFIG = {
@@ -853,15 +1006,15 @@
     ];
 
     let studentProfile = {
-      username: 'rahul_nair',
-      fullName: 'Rahul Nair',
-      phone: '+91 98765 43210',
-      whatsapp: '+91 98765 43210',
-      email: 'rahul.nair@school.in',
-      school: 'Government Model Boys Higher Secondary School, Trivandrum',
+      username: '',
+      fullName: '',
+      phone: '',
+      whatsapp: '',
+      email: '',
+      school: '',
       grade: 'Plus Two Science',
       points: 0,
-      referralCode: 'RAHUL150'
+      referralCode: 'STUDENT101'
     };
 
     // Premium plan benefits mappings
@@ -956,11 +1109,11 @@
 
     // Lead form parameters
     let premiumLeadForm = {
-      name: studentProfile.fullName,
-      phone: studentProfile.phone,
-      whatsapp: studentProfile.whatsapp,
-      email: studentProfile.email,
-      className: studentProfile.grade,
+      name: '',
+      phone: '',
+      whatsapp: '',
+      email: '',
+      className: '',
       selectedPlan: 'Gold'
     };
 
@@ -1001,18 +1154,18 @@
     // Initialize application on window load
     window.addEventListener('DOMContentLoaded', () => {
       renderNavigation();
-      updateProfileLayout();
       renderDashboardElements();
       renderAIOutlinesPreset();
       renderKeralaQuestionPapers();
       renderMockSelectorLibrary();
       renderWeeklyStudyPlans();
-      renderReferralsList();
       renderScholarshipsGrid();
       renderCoursesList();
       startCountdownTimer();
-      populateLeadFormInputs();
       injectAdBannerPlacements();
+
+      // Check for persistent session ('Remember Me' logic)
+      checkPersistentSession();
       
       // Passive visitor impression tick loop
       setInterval(() => {
@@ -1025,6 +1178,47 @@
         }
       }, 4500);
     });
+
+    // --- SECURE PERSISTENT SESSION CHECKER ---
+    function checkPersistentSession() {
+      const savedSessionFlag = localStorage.getItem('edunexa_remember_me_flag');
+      const savedProfile = localStorage.getItem('edunexa_active_profile');
+      const savedPremium = localStorage.getItem('edunexa_is_premium');
+      const savedPremiumTier = localStorage.getItem('edunexa_premium_tier');
+
+      if (savedSessionFlag === 'true' && savedProfile) {
+        try {
+          const parsedProfile = JSON.parse(savedProfile);
+          studentProfile = parsedProfile;
+          isStudentLoggedIn = true;
+          
+          if (savedPremium === 'true') {
+            isPremium = true;
+            premiumTier = savedPremiumTier || 'gold';
+          }
+          
+          showDashboardSecuredArea();
+          updateProfileLayout();
+          triggerToast(`Welcome back, ${parsedProfile.fullName}! Session automatically restored.`);
+        } catch (err) {
+          console.error("Error restoring session data", err);
+          showLoginArea();
+        }
+      } else {
+        showLoginArea();
+      }
+    }
+
+    function showLoginArea() {
+      isStudentLoggedIn = false;
+      document.getElementById('dashboard-auth-block').classList.remove('hidden');
+      document.getElementById('dashboard-secured-view').classList.add('hidden');
+    }
+
+    function showDashboardSecuredArea() {
+      document.getElementById('dashboard-auth-block').classList.add('hidden');
+      document.getElementById('dashboard-secured-view').classList.remove('hidden');
+    }
 
     // Render custom side navigation panel
     function renderNavigation() {
@@ -1131,6 +1325,88 @@
       if (viewEmail) viewEmail.innerText = studentProfile.email;
     }
 
+    // Handles login credential checks & session persistence setup
+    function handleStudentLoginSubmit(event) {
+      event.preventDefault();
+      const usernameInput = document.getElementById('login-username');
+      const username = usernameInput ? usernameInput.value.trim() : '';
+
+      if (!username) {
+        triggerToast("Please enter a valid Username", "error");
+        return;
+      }
+
+      const rememberChecked = document.getElementById('remember-me').checked;
+
+      studentProfile = {
+        username: username.toLowerCase(),
+        fullName: username === 'rahul_nair' ? 'Rahul Nair' : username.toUpperCase(),
+        phone: username === 'rahul_nair' ? '+91 98765 43210' : '+91 90000 00000',
+        whatsapp: username === 'rahul_nair' ? '+91 98765 43210' : '+91 90000 00000',
+        email: username === 'rahul_nair' ? 'rahul.nair@school.in' : 'student@eduhub.com',
+        school: 'Government Model Boys Higher Secondary School, Trivandrum',
+        grade: 'Plus Two Science',
+        points: 0,
+        referralCode: username.toUpperCase() + '777'
+      };
+
+      isStudentLoggedIn = true;
+      showDashboardSecuredArea();
+      updateProfileLayout();
+      renderReferralsList();
+
+      if (rememberChecked) {
+        localStorage.setItem('edunexa_remember_me_flag', 'true');
+        localStorage.setItem('edunexa_active_profile', JSON.stringify(studentProfile));
+        localStorage.setItem('edunexa_is_premium', isPremium ? 'true' : 'false');
+        localStorage.setItem('edunexa_premium_tier', premiumTier);
+      } else {
+        localStorage.removeItem('edunexa_remember_me_flag');
+        localStorage.removeItem('edunexa_active_profile');
+      }
+
+      triggerToast(`Successfully signed in. Persistent session created.`);
+    }
+
+    function handleStudentRegisterSubmit(event) {
+      event.preventDefault();
+      const username = document.getElementById('register-username').value.trim();
+      const fullName = document.getElementById('register-name').value.trim();
+      const phone = document.getElementById('register-phone').value.trim();
+      const whatsapp = document.getElementById('register-whatsapp').value.trim();
+      const school = document.getElementById('register-school').value.trim();
+
+      if (!username || !fullName || !phone) {
+        triggerToast("Please populate all required registration inputs.", "error");
+        return;
+      }
+
+      studentProfile = {
+        username: username.toLowerCase(),
+        fullName: fullName,
+        phone: phone,
+        whatsapp: whatsapp || phone,
+        email: 'student@edunexa.com',
+        school: school || 'Govt School, Kerala',
+        grade: 'Plus Two Science',
+        points: 0,
+        referralCode: username.toUpperCase() + '100'
+      };
+
+      isStudentLoggedIn = true;
+      showDashboardSecuredArea();
+      updateProfileLayout();
+      renderReferralsList();
+
+      const rememberChecked = document.getElementById('remember-me').checked;
+      if (rememberChecked) {
+        localStorage.setItem('edunexa_remember_me_flag', 'true');
+        localStorage.setItem('edunexa_active_profile', JSON.stringify(studentProfile));
+      }
+
+      triggerToast(`Account created successfully! Welcome.`);
+    }
+
     function handleProfileLogout() {
       studentProfile = {
         username: '',
@@ -1143,8 +1419,34 @@
       };
       isPremium = false;
       premiumTier = 'free';
+      
+      localStorage.removeItem('edunexa_remember_me_flag');
+      localStorage.removeItem('edunexa_active_profile');
+      localStorage.removeItem('edunexa_is_premium');
+      localStorage.removeItem('edunexa_premium_tier');
+
       updateProfileLayout();
-      triggerToast("Profile logged out. Defaulting to Guest Student mode.");
+      showLoginArea();
+      triggerToast("Logged out successfully. Persistent credentials cleared.");
+    }
+
+    function changeAuthMode(mode) {
+      const loginForm = document.getElementById('auth-login-form');
+      const registerForm = document.getElementById('auth-register-form');
+      const btnLogin = document.getElementById('btn-auth-login');
+      const btnRegister = document.getElementById('btn-auth-register');
+
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        btnLogin.className = "flex-1 pb-2 text-sm font-bold border-b-2 border-indigo-500 text-indigo-400";
+        btnRegister.className = "flex-1 pb-2 text-sm font-bold text-slate-500";
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        btnLogin.className = "flex-1 pb-2 text-sm font-bold text-slate-500";
+        btnRegister.className = "flex-1 pb-2 text-sm font-bold border-b-2 border-indigo-500 text-indigo-400";
+      }
     }
 
     function renderDashboardElements() {
@@ -1656,7 +1958,7 @@
               <span class="text-[10px] font-bold text-indigo-600">${msg.sender}</span>
               <span class="text-[8px] text-slate-400">${msg.time}</span>
             </div>
-            <p class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs text-slate-750">${msg.text}</p>
+            <p class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs text-slate-755">${msg.text}</p>
           </div>
         `;
       });
@@ -1679,7 +1981,7 @@
           <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center text-xs">
             <div>
               <p class="font-bold text-slate-750">${friend.name}</p>
-              <p class="text-[10px] text-slate-500">Status: ${friend.status}</p>
+              <p class="text-[10px] text-slate-505">Status: ${friend.status}</p>
             </div>
             <span class="font-bold text-indigo-600">+${friend.pointsEarned} Pts</span>
           </div>
@@ -1917,13 +2219,13 @@
       container.innerHTML = "";
       leadsList.forEach(lead => {
         container.innerHTML += `
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-left">
+          <div class="p-3 bg-slate-55 rounded-xl border border-slate-200 text-xs text-left">
             <div class="flex justify-between font-bold text-slate-800">
-              <span>${lead.name} (${lead.className})</span>
-              <span class="text-indigo-600 font-bold">${lead.plan}</span>
+              <span>\${lead.name} (\${lead.className})</span>
+              <span class="text-indigo-600 font-bold">\${lead.plan}</span>
             </div>
-            <p class="text-slate-500">Phone: ${lead.phone} | WhatsApp: ${lead.whatsapp}</p>
-            <p class="text-[10px] text-slate-400 font-mono">Registered: ${lead.date}</p>
+            <p class="text-slate-500">Phone: \${lead.phone} | WhatsApp: \${lead.whatsapp}</p>
+            <p class="text-[10px] text-slate-400 font-mono">Registered: \${lead.date}</p>
           </div>
         `;
       });
@@ -1935,10 +2237,10 @@
       const prem = document.getElementById('stat-premium-revenue');
       const serv = document.getElementById('stat-service-revenue');
 
-      if (imp) imp.innerText = `${adImpressions} Views`;
-      if (earn) earn.innerText = `₹${adEarnings}`;
-      if (prem) prem.innerText = `₹${premiumRevenue}`;
-      if (serv) serv.innerText = `₹${serviceFeeRevenue}`;
+      if (imp) imp.innerText = `\${adImpressions} Views`;
+      if (earn) earn.innerText = `₹\${adEarnings}`;
+      if (prem) prem.innerText = `₹\${premiumRevenue}`;
+      if (serv) serv.innerText = `₹\${serviceFeeRevenue}`;
 
       if (isOwnerAuthenticated) {
         renderOperatorConsoleSecuredMetrics();
@@ -2036,11 +2338,11 @@
             <div class="space-y-2">
               <span class="text-[9px] bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded uppercase">${course.duration}</span>
               <h3 class="text-sm font-black text-slate-800">${course.title}</h3>
-              <p class="text-xs text-slate-500">${course.desc}</p>
-              <p class="text-[11px] text-slate-400 font-semibold">Mentor Teacher: ${course.mentor}</p>
+              <p class="text-xs text-slate-55">${course.desc}</p>
+              <p class="text-[11px] text-slate-400 font-semibold">Mentor Teacher: \${course.mentor}</p>
             </div>
             <div class="pt-4 mt-4 border-t border-slate-200 flex justify-between items-center">
-              <span class="text-sm font-black text-indigo-600">${course.price}</span>
+              <span class="text-sm font-black text-indigo-600">\${course.price}</span>
               <button onclick="openPremiumModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
                 Enroll Now
               </button>
@@ -2050,11 +2352,25 @@
       });
     }
 
+    // Toggle mobile navigation sidebar views
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      if (!sidebar) return;
+      
+      if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+        sidebar.classList.add('fixed', 'inset-0', 'z-40', 'bg-white', 'pt-20', 'px-4');
+      } else {
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('fixed', 'inset-0', 'z-40', 'bg-white', 'pt-20', 'px-4');
+      }
+    }
+
     // Mock AI preset descriptions
     const sampleAiDatabase = {
-      optics: `## Plus Two Physics: Wave Optics Study Notes\n\n### 1. Wavefront\nA wavefront is defined as the locus of all points in a medium vibrating in the same phase.\n\n### 2. Huygens' Principle\n* Each point on a given wavefront acts as a source of secondary disturbance (secondary wavelets).`,
-      organic: `## Chemistry: Organic Electrophilic Substitutions\n\n### 1. Electrophiles\nThese are electron-deficient species containing an atom with an incomplete octet or positive charge.`,
-      math: `## SSLC Mathematics: Circle Theorems & Area Relations\n\n### Theorem 1\nThe angle subtended by an arc of a circle at its center is double the angle subtended by it at any point on the remaining part of the circle.`
+      optics: `## Plus Two Physics: Wave Optics Study Notes\\n\\n### 1. Wavefront\\nA wavefront is defined as the locus of all points in a medium vibrating in the same phase.\\n\\n### 2. Huygens' Principle\\n* Each point on a given wavefront acts as a source of secondary disturbance (secondary wavelets).`,
+      organic: `## Chemistry: Organic Electrophilic Substitutions\\n\\n### 1. Electrophiles\\nThese are electron-deficient species containing an atom with an incomplete octet or positive charge.`,
+      math: `## SSLC Mathematics: Circle Theorems & Area Relations\\n\\n### Theorem 1\\nThe angle subtended by an arc of a circle at its center is double the angle subtended by it at any point on the remaining part of the circle.`
     };
   </script>
 </body>
